@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phiếu đăng ký kiêm tự đánh giá — Lớp Kỹ sư AI / Kỹ sư Dữ liệu</title>
+<style>
+:root{
+  --paper:#ffffff; --shell:#F4F5F7; --ink:#16181D; --muted:#666B75;
+  --rule:#E1E4E9; --red:#EE0033; --red-deep:#B8002A; --wash:#FDF0F3;
+  --ok:#14663D; --ok-bg:#EDF7F1; --warn:#8A5A00; --warn-bg:#FDF6E7;
+  --font:"Roboto","Segoe UI",-apple-system,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--shell);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px;display:grid;grid-template-columns:minmax(0,1fr) 316px;gap:34px;align-items:start}
+header.top{grid-column:1/-1;background:var(--paper);border-bottom:3px solid var(--red);margin:0 -20px 26px;padding:26px 20px 20px}
+.top-in{max-width:1140px;margin:0 auto}
+.org{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{margin:8px 0 4px;font-size:25px;font-weight:800;letter-spacing:-.015em}
+.sub{color:var(--muted);font-size:14px}
+.classpick{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.classpick button{font-family:inherit;font-size:14px;font-weight:600;padding:9px 18px;border:1.5px solid var(--rule);background:var(--paper);color:var(--muted);border-radius:2px;cursor:pointer;transition:.15s}
+.classpick button:hover{border-color:#BFC4CC}
+.classpick button[aria-pressed="true"]{border-color:var(--red);background:var(--wash);color:var(--red-deep)}
+main{min-width:0}
+section.card{background:var(--paper);border:1px solid var(--rule);margin-bottom:22px}
+.card-hd{display:flex;align-items:baseline;gap:12px;padding:15px 20px;border-bottom:1px solid var(--rule);background:#FAFBFC}
+.card-hd .mark{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--red);white-space:nowrap}
+.card-hd h2{margin:0;font-size:16px;font-weight:700;letter-spacing:-.01em}
+.card-hd .note{margin-left:auto;font-size:12.5px;color:var(--muted);text-align:right}
+.card-bd{padding:18px 20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.f{display:flex;flex-direction:column;gap:5px}
+.f label{font-size:12.5px;font-weight:600;color:var(--muted)}
+input[type=text],textarea,select{font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:2px;padding:8px 10px;width:100%}
+textarea{resize:vertical;min-height:76px;line-height:1.5}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--red);outline-offset:-1px;border-color:var(--red)}
+.gate{border-top:1px solid var(--rule)}
+.gate:first-child{border-top:0}
+.gate-in{padding:15px 0}
+.gate-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.gate-n{font-size:12px;font-weight:800;color:var(--red);min-width:20px}
+.gate-t{font-weight:700;font-size:14.5px}
+.gate-req{font-size:13px;color:var(--muted);margin:3px 0 10px 30px}
+.gate-b{margin-left:30px;display:grid;grid-template-columns:1fr 210px;gap:14px}
+.hint{font-size:12.5px;color:var(--muted);margin-bottom:5px}
+.yn{display:flex;flex-direction:column;gap:7px;padding-top:20px}
+.yn label{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;font-weight:500;color:var(--ink)}
+.crit{border-top:1px solid var(--rule);padding:18px 0}
+.crit:first-child{border-top:0;padding-top:4px}
+.crit-h{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:3px}
+.tt{font-size:12px;font-weight:800;color:var(--paper);background:var(--red);padding:2px 7px;border-radius:2px;letter-spacing:.04em}
+.crit-h strong{font-size:15.5px}
+.grp{font-size:12px;color:var(--muted);border:1px solid var(--rule);padding:1px 7px;border-radius:2px}
+.max{font-size:12.5px;font-weight:700;color:var(--red-deep);margin-left:auto}
+.mean{font-size:13px;color:var(--muted);margin:0 0 12px}
+.step{margin-bottom:12px}
+.step-l{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-l span{color:var(--red);margin-right:4px}
+.bands{border:1px solid var(--rule);background:#FCFCFD}
+.band{display:flex;gap:11px;padding:10px 12px;border-top:1px solid var(--rule);cursor:pointer;align-items:flex-start}
+.band:first-child{border-top:0}
+.band:hover{background:var(--wash)}
+.band input{margin-top:3px;accent-color:var(--red);flex:none}
+.band-x{font-weight:700;font-size:13px;white-space:nowrap;min-width:56px}
+.band-d{font-size:13.5px;line-height:1.45}
+.band.on{background:var(--wash);box-shadow:inset 3px 0 0 var(--red)}
+.pickrow{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.pickrow label{font-size:12.5px;font-weight:600;color:var(--muted)}
+.pickrow input[type=number]{width:78px;font-size:15px;font-weight:700;text-align:center;padding:6px}
+.pickrow .of{font-size:13px;color:var(--muted)}
+.chk{display:flex;gap:9px;align-items:flex-start;padding:7px 0;font-size:14px;cursor:pointer}
+.chk input{margin-top:3px;accent-color:var(--red);flex:none}
+aside{position:sticky;top:16px}
+.panel{background:var(--paper);border:1px solid var(--rule)}
+.panel-hd{padding:12px 15px;border-bottom:1px solid var(--rule);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tot{padding:16px 15px;border-bottom:1px solid var(--rule);display:flex;align-items:baseline;gap:9px}
+.tot b{font-size:40px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.tot span{color:var(--muted);font-size:14px}
+.bars{padding:6px 15px 12px}
+.bar{padding:10px 0;border-top:1px solid var(--rule)}
+.bar:first-child{border-top:0}
+.bar-h{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;gap:8px}
+.bar-h b{font-weight:700}
+.bar-h em{font-style:normal;color:var(--muted);font-size:12.5px}
+.track{height:7px;background:#EEF0F3;position:relative;overflow:hidden}
+.fill{height:100%;background:var(--red);transition:width .25s}
+.fill.pass{background:var(--ok)}
+.thr{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink)}
+.gates{padding:13px 15px;border-top:1px solid var(--rule)}
+.g{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:5px 0}
+.g i{font-style:normal;font-weight:800;flex:none;width:16px}
+.g.no i{color:var(--muted)}
+.g.yes i{color:var(--ok)}
+.verdict{padding:14px 15px;font-weight:800;font-size:15px;text-align:center;border-top:1px solid var(--rule)}
+.verdict.yes{background:var(--ok-bg);color:var(--ok)}
+.verdict.no{background:var(--warn-bg);color:var(--warn)}
+.acts{padding:13px 15px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:8px}
+button.act{font-family:inherit;font-size:14px;font-weight:700;padding:11px 14px;border-radius:2px;cursor:pointer;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink);transition:.15s}
+button.act:hover{border-color:#BFC4CC}
+button.act.primary{background:var(--red);border-color:var(--red);color:#fff}
+button.act.primary:hover{background:var(--red-deep);border-color:var(--red-deep)}
+.tip{font-size:12px;color:var(--muted);padding:0 15px 14px;line-height:1.45}
+.warnbox{margin:0 0 16px;padding:11px 14px;background:var(--warn-bg);border-left:3px solid var(--warn);font-size:13.5px;color:#5C3D00}
+.err{border-color:var(--red)!important;background:#FFF7F9}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:3px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:940px){.wrap{grid-template-columns:1fr;gap:0}aside{position:static;margin-bottom:24px;order:-1}.gate-b{grid-template-columns:1fr;margin-left:0}.gate-req{margin-left:0}.grid2{grid-template-columns:1fr}.yn{padding-top:0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="top-in">
+      <div class="org">Tổng công ty Mạng lưới Viettel — VTNet</div>
+      <h1>Phiếu đăng ký kiêm tự đánh giá</h1>
+      <div class="sub">Chương trình đào tạo chuyển dịch chức danh. Bạn tự kê khai và tự chấm điểm; cán bộ quản lý trực tiếp xác nhận trên bản in.</div>
+      <div class="classpick" id="classpick">
+        <button type="button" data-cls="AI" aria-pressed="true">Lớp Kỹ sư Trí tuệ nhân tạo (AI)</button>
+        <button type="button" data-cls="DS" aria-pressed="false">Lớp Kỹ sư Dữ liệu (Data Science)</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="warnbox">
+      Tiêu chí nào không có minh chứng đính kèm và không được cán bộ quản lý xác nhận sẽ được chấm 0 điểm. Kê khai không đúng thực tế: hồ sơ bị loại khỏi danh sách xét chọn.
+    </div>
+
+    <section class="card">
+      <div class="card-hd"><span class="mark">A</span><h2>Thông tin cá nhân</h2></div>
+      <div class="card-bd"><div class="grid2" id="infoGrid"></div></div>
+    </section>
+
+    <section class="card">
+      <div class="card-hd"><span class="mark">B</span><h2>Điều kiện sàng lọc bắt buộc</h2>
+        <span class="note">Phải đạt cả 6/6. Thiếu một điều kiện là dừng.</span></div>
+      <div class="card-bd" id="screenBox"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-hd"><span class="mark">C</span><h2>Tự kê khai và tự chấm điểm</h2>
+        <span class="note">Thang 100 điểm</span></div>
+      <div class="card-bd" id="critBox"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-hd"><span class="mark">D</span><h2>Minh chứng đính kèm</h2>
+        <span class="note">Nộp kèm bản in</span></div>
+      <div class="card-bd" id="evBox"></div>
+    </section>
+  </main>
+
+  <aside>
+    <div class="panel">
+      <div class="panel-hd">Kết quả tạm tính</div>
+      <div class="tot"><b id="totNum">0</b><span>/ 100 điểm</span></div>
+      <div class="bars" id="bars"></div>
+      <div class="gates" id="gates"></div>
+      <div class="verdict no" id="verdict">Chưa đạt yêu cầu đầu vào</div>
+      <div class="acts">
+        <button class="act primary" id="btnDocx">Tải phiếu Word để in và ký</button>
+        <button class="act" id="btnSave">Lưu bản nháp</button>
+        <button class="act" id="btnLoad">Mở bản nháp đã lưu</button>
+        <input type="file" id="fileIn" accept=".json" hidden>
+      </div>
+      <div class="tip">Bản nháp lưu thành một file trên máy bạn, không gửi đi đâu. Điền dở thì lưu lại, lần sau mở lên điền tiếp.</div>
+    </div>
+  </aside>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ============================ DỮ LIỆU ============================ */
+var INFO = [
+  ["hoTen","Họ và tên"],["maNV","Mã nhân viên"],["namSinh","Năm sinh"],["gioiTinh","Giới tính"],
+  ["donVi","Đơn vị công tác"],["chucDanh","Chức danh hiện tại"],["thamNien","Thâm niên công tác (năm)"],
+  ["dienThoai","Điện thoại"],["email","Email nội bộ"],["truong","Trường tốt nghiệp"],
+  ["nganh","Ngành đào tạo"],["namTN","Năm tốt nghiệp"]
+];
+
+var SCREEN_BASE = [
+  {ten:"Tư cách nhân sự", yc:"CBNV cơ hữu VTNet, khối kỹ thuật; không trong diện kỷ luật, chờ nghỉ việc hoặc luân chuyển.",
+   goi:"Ghi đơn vị, chức danh, loại hợp đồng, thâm niên.", mc:"Đối chiếu hồ sơ nhân sự."},
+  {ten:"Trình độ học vấn", yc:"Đại học trở lên, khối kỹ thuật hoặc định lượng.",
+   goi:"Ghi trường, ngành, năm tốt nghiệp.", mc:"Bản sao bằng tốt nghiệp."},
+  {ten:"Nền lập trình tối thiểu", yc:"Đã từng lập trình hoặc viết script; đọc hiểu được code cơ bản.",
+   goi:"Ghi ngôn ngữ đã dùng và mô tả một đoạn code hoặc script bạn đã viết.", mc:"File mã nguồn hoặc ảnh chụp."},
+  {ten:"Tiếng Anh tối thiểu", yc:"Tối thiểu B1 hoặc TOEIC 550 hoặc tương đương.",
+   goi:"Ghi loại chứng chỉ, điểm, năm cấp. Chưa có chứng chỉ thì mô tả kinh nghiệm đọc tài liệu tiếng Anh.", mc:"Bản sao chứng chỉ."},
+  {ten:"Cam kết hoàn thành và dự thi", yc:"Tham gia đủ chương trình và dự thi chuyển đổi chức danh cuối khóa.",
+   goi:"Xác nhận đã đọc và sẽ ký Bản cam kết cá nhân.", mc:"Bản cam kết cá nhân."},
+  {ten:"Đơn vị bố trí và hạ tầng", yc:"Cán bộ quản lý đồng ý cử đi học và bố trí thời gian; có tài khoản nội bộ và máy trạm đạt cấu hình.",
+   goi:"Ghi tình trạng tài khoản nội bộ và cấu hình máy đang dùng.", mc:"Phiếu xác nhận của cán bộ quản lý."}
+];
+function screenFor(cls){
+  var s = JSON.parse(JSON.stringify(SCREEN_BASE));
+  if(cls==="DS"){
+    s[2]={ten:"Excel và SQL tối thiểu", yc:"Excel nâng cao (VLOOKUP, Pivot Table, Power Query) và SQL cơ bản (SELECT, JOIN, GROUP BY).",
+      goi:"Ghi các hàm và thao tác Excel đã dùng, mô tả một truy vấn SQL bạn đã viết.", mc:"Ảnh chụp file Excel hoặc câu truy vấn."};
+    s[5].yc="Cán bộ quản lý đồng ý cử đi học và bố trí thời gian; có tài khoản Data Lakehouse hoặc AI Platform và máy trạm đạt cấu hình.";
+  } else {
+    s[5].yc="Cán bộ quản lý đồng ý cử đi học và bố trí thời gian; có tài khoản AI Platform hoặc GitLab và máy trạm đạt cấu hình.";
+  }
+  return s;
+}
+
+var C = {};
+C.dongco = {g:"B", ten:"Mong muốn thật sự và động cơ tham gia", max:14, rows:6,
+  mean:"Động cơ xuất phát từ nhu cầu của chính bạn, không phải do được chỉ định; hiểu đúng độ khó và khối lượng khóa học.",
+  goi:"Viết 150–300 từ theo 3 ý: (a) vì sao bạn muốn chuyển sang nghề này; (b) bạn đã chủ động chuẩn bị gì trước khi đăng ký; (c) bạn hiểu khóa học đòi hỏi những gì.",
+  mc:"Bản trình bày động cơ có chữ ký; minh chứng đã chuẩn bị (tài liệu tự học, bài tập, sản phẩm thử nghiệm) nếu có.",
+  levels:[[11,14,"Lý do cụ thể gắn với công việc của bạn; đã chủ động chuẩn bị và có minh chứng kèm theo; mô tả đúng khối lượng và độ khó khóa học."],
+          [6,10,"Có mong muốn rõ, lý do hợp lý nhưng chưa có minh chứng chuẩn bị trước; hiểu khóa học ở mức chung."],
+          [0,5,"Lý do chung chung hoặc do đơn vị chỉ định; chưa chuẩn bị gì."]]};
+C.dinhhuong = {g:"B", ten:"Định hướng nghề nghiệp phù hợp", max:11, rows:4,
+  mean:"Kế hoạch phát triển cá nhân gắn với nghề, thể hiện mong muốn chuyển dịch lâu dài.",
+  goi:"Ghi định hướng 2–3 năm tới: vị trí mong muốn, các bước dự kiến theo từng năm, dự định ứng dụng sau khóa học tại đơn vị.",
+  mc:"Bản định hướng cá nhân có chữ ký; trích lục kế hoạch phát triển cá nhân nếu đơn vị đã có.",
+  levels:[[9,11,"Lộ trình 2–3 năm cụ thể theo từng mốc, gắn với vị trí công việc, cán bộ quản lý xác nhận nằm trong quy hoạch đơn vị."],
+          [5,8,"Có định hướng theo nghề nhưng các bước còn chung, chưa gắn mốc thời gian."],
+          [0,4,"Chưa xác định định hướng, học cho biết hoặc chỉ để có chứng chỉ."]]};
+C.thoigian = {g:"B", ten:"Kế hoạch bố trí thời gian học", max:10, rows:4,
+  mean:"Mức cụ thể và khả thi của phương án sắp xếp khoảng 8–10 giờ học mỗi tuần ngoài giờ làm việc, duy trì đến hết chương trình.",
+  goi:"Ghi rõ khung giờ học cố định trong tuần (thứ mấy, mấy giờ, tổng bao nhiêu giờ mỗi tuần) và cách xử lý khi trùng lịch trực hoặc việc đột xuất.",
+  mc:"Bảng kế hoạch học tập theo tuần có chữ ký; bản kê lịch trực hoặc ca kíp hiện tại nếu có.",
+  levels:[[9,10,"Khung giờ cố định từ 8 giờ mỗi tuần trở lên, ghi rõ ngày và giờ, có phương án dự phòng; cán bộ quản lý xác nhận khả thi."],
+          [5,8,"Bố trí được 5–8 giờ mỗi tuần nhưng lịch chưa cố định hoặc chưa có phương án dự phòng."],
+          [0,4,"Chưa bố trí được lịch cụ thể, mới ở mức cố gắng thu xếp."]]};
+C.capstone = {g:"C", ten:"Đề xuất bài toán Capstone tại đơn vị", max:10, rows:5,
+  mean:"Chương trình yêu cầu làm đồ án trên một bài toán thật của đơn vị. Tiêu chí này đánh giá mức sẵn sàng của bài toán và dữ liệu.",
+  goi:"Đề xuất một bài toán theo 4 ý: (a) tên bài toán; (b) hiện tại đang xử lý thế nào; (c) dữ liệu sẵn có gồm nguồn, khối lượng, đã lấy được chưa; (d) kết quả kỳ vọng.",
+  mc:"Bản đề xuất bài toán khoảng nửa trang; ảnh chụp hoặc mô tả nguồn dữ liệu.",
+  levels:[[8,10,"Bài toán cụ thể, dữ liệu đã sẵn có và truy cập được, cán bộ quản lý cam kết hỗ trợ triển khai và áp dụng kết quả."],
+          [4,7,"Nêu được bài toán nhưng dữ liệu chưa sẵn sàng hoặc phải xin thêm; cán bộ quản lý đồng ý về chủ trương."],
+          [0,3,"Chưa đề xuất được bài toán cụ thể, mới ở mức ý tưởng chung."]]};
+
+var CRIT_AI = [
+ {tt:7,g:"A",ten:"Nền Toán và Thống kê",max:10,rows:3,
+  mean:"Đại số tuyến tính, giải tích, xác suất thống kê. Đây là nền cốt lõi để tiếp thu Machine Learning và Deep Learning.",
+  goi:"Ghi các môn toán và xác suất thống kê đã học kèm điểm số; mô tả việc bạn đã vận dụng thống kê vào công việc nếu có.",
+  mc:"Bản sao bảng điểm đại học, phần các môn toán và xác suất thống kê.",
+  levels:[[8,10,"Điểm trung bình các môn toán và xác suất thống kê từ 7,0 trở lên và hiện đang vận dụng thống kê trong công việc."],
+          [4,7,"Đã học đầy đủ, điểm từ 5,5 đến dưới 7,0; ít vận dụng trong công việc."],
+          [0,3,"Điểm dưới 5,5 hoặc chương trình học không có các môn này; không vận dụng."]]},
+ {tt:8,g:"A",ten:"Lập trình Python và công cụ dữ liệu",max:15,rows:4,
+  mean:"Python, thư viện NumPy và Pandas, Git, SQL. Đây là bộ công cụ dùng xuyên suốt chương trình.",
+  goi:"Ghi theo 3 mục: (a) ngôn ngữ và thư viện đã dùng; (b) tối đa 3 sản phẩm bạn đã viết, mỗi sản phẩm ghi tên, mục đích, số dòng ước tính, hiện còn dùng hay không; (c) bạn có dùng Git hoặc SQL không.",
+  mc:"File mã nguồn hoặc ảnh chụp màn hình sản phẩm; đường dẫn repo nội bộ nếu có.",
+  levels:[[11,15,"Từ 2 sản phẩm trở lên tự viết bằng Python đang được dùng thực tế, có dùng Pandas hoặc NumPy, biết dùng Git hoặc SQL."],
+          [6,10,"Có một sản phẩm hoặc script đơn giản; biết cú pháp và thư viện cơ bản nhưng chưa dùng Git hoặc SQL thường xuyên."],
+          [0,5,"Mới tiếp cận Python, chưa có sản phẩm nào."]]},
+ {tt:9,g:"A",ten:"Kinh nghiệm làm việc với dữ liệu và AI",max:6,rows:3,
+  mean:"Mức độ bạn đã trực tiếp làm việc với dữ liệu mạng lưới, phân tích hoặc dự án AI dù quy mô nhỏ.",
+  goi:"Ghi các công việc hoặc dự án đã tham gia có xử lý dữ liệu, nêu rõ vai trò là chủ trì, trực tiếp làm hay hỗ trợ, và kết quả thu được.",
+  mc:"Sản phẩm như báo cáo phân tích, dashboard, mô hình thử nghiệm, hoặc quyết định phân công.",
+  levels:[[5,6,"Trực tiếp làm hoặc chủ trì ít nhất một sản phẩm dữ liệu hoặc AI đã đưa vào sử dụng."],
+          [2,4,"Tham gia ở vai trò hỗ trợ, cung cấp số liệu cho người khác phân tích."],
+          [0,1,"Chưa từng tham gia công việc liên quan đến dữ liệu."]]},
+ {tt:10,g:"A",ten:"Tiếng Anh trên ngưỡng tối thiểu",max:4,rows:2,
+  mean:"Trình độ vượt mức B1 hoặc TOEIC 550, thuận lợi cho việc tự đọc tài liệu chuyên môn trong quá trình học.",
+  goi:"Ghi loại chứng chỉ, điểm số, năm cấp.", mc:"Bản sao chứng chỉ còn hiệu lực.",
+  levels:[[4,4,"TOEIC từ 750 trở lên hoặc tương đương, ví dụ IELTS 6.0 trở lên."],
+          [2,3,"TOEIC từ 650 đến 749."],[0,1,"TOEIC từ 550 đến 649."]]},
+ Object.assign({tt:11},C.dongco), Object.assign({tt:12},C.dinhhuong), Object.assign({tt:13},C.thoigian),
+ {tt:14,g:"C",ten:"Tính liên quan của công việc hiện tại",max:8,rows:3,
+  mean:"Vị trí bạn đang làm có nhiều bài toán áp dụng được AI như vận hành, giám sát, xử lý sự cố, tối ưu mạng.",
+  goi:"Ghi vị trí công việc, nhiệm vụ chính và liệt kê các đầu việc hiện đang làm thủ công mà có thể áp dụng AI.",
+  mc:"Bản mô tả công việc hoặc quyết định phân công nhiệm vụ.",
+  levels:[[6,8,"Công việc gắn trực tiếp với dữ liệu hoặc vận hành mạng, nêu được từ 2 đầu việc trở lên có thể áp dụng AI."],
+          [3,5,"Liên quan gián tiếp, nêu được một đầu việc có thể áp dụng."],
+          [0,2,"Công việc thuần hành chính hoặc thi công, ít liên quan đến dữ liệu."]]},
+ Object.assign({tt:15},C.capstone),
+ {tt:16,g:"D",ten:"Tinh thần tự học và chủ động",max:7,rows:3,
+  mean:"Khả năng tự học và kỷ luật cá nhân. Đây là yếu tố quyết định việc theo được phần tự học trên hệ thống LXP.",
+  goi:"Ghi các nội dung bạn đã tự học trong 24 tháng gần nhất và sản phẩm hoặc kết quả thu được. Không tính các khóa do đơn vị cử đi.",
+  mc:"Chứng chỉ tự thi, sản phẩm tự làm như file, mã nguồn, báo cáo, hoặc sáng kiến đã áp dụng.",
+  levels:[[5,7,"Có ít nhất một sản phẩm hoặc chứng chỉ tự học được cán bộ quản lý xác nhận, áp dụng được vào công việc."],
+          [2,4,"Có tự học nhưng chưa tạo ra sản phẩm cụ thể."],[0,1,"Không kê khai được hoạt động tự học nào."]]},
+ {tt:17,g:"D",ten:"Làm việc nhóm và trình bày",max:5,rows:3,
+  mean:"Đồ án Capstone làm theo nhóm 3–4 người và phải bảo vệ trước hội đồng, cần khả năng phối hợp và trình bày.",
+  goi:"Ghi các nhóm công tác, đề tài hoặc sáng kiến đã tham gia trong 24 tháng gần nhất, nêu rõ vai trò và bạn đã từng trình bày trước tập thể chưa.",
+  mc:"Quyết định thành lập nhóm hoặc tổ công tác, biên bản nghiệm thu sáng kiến, tài liệu đã trình bày.",
+  levels:[[4,5,"Đã từng chủ trì nhóm hoặc trình bày trước tập thể và lãnh đạo, cán bộ quản lý xác nhận phối hợp tốt."],
+          [2,3,"Tham gia nhóm ở vai trò thành viên, phối hợp bình thường."],
+          [0,1,"Chủ yếu làm việc độc lập, chưa tham gia nhóm."]]}
+];
+
+var CRIT_DS = [
+ {tt:7,g:"A",ten:"Nền Thống kê và tư duy định lượng",max:10,rows:3,
+  mean:"Xác suất thống kê, thống kê suy luận, kiểm định giả thuyết. Đây là nền cốt lõi của nghề Kỹ sư dữ liệu.",
+  goi:"Ghi các môn xác suất thống kê đã học kèm điểm số; mô tả việc bạn đã vận dụng thống kê trong công việc như so sánh nhóm, đánh giá xu hướng.",
+  mc:"Bản sao bảng điểm đại học; báo cáo phân tích đã thực hiện nếu có.",
+  levels:[[8,10,"Điểm trung bình các môn xác suất thống kê từ 7,0 trở lên và thường xuyên vận dụng phân tích số liệu trong công việc."],
+          [4,7,"Đã học đầy đủ, điểm từ 5,5 đến dưới 7,0; thỉnh thoảng vận dụng."],
+          [0,3,"Điểm dưới 5,5 hoặc chưa học; không vận dụng."]]},
+ {tt:8,g:"A",ten:"SQL, Excel và xử lý dữ liệu",max:12,rows:4,
+  mean:"Mức thành thạo truy vấn, làm sạch và tổng hợp dữ liệu vượt trên tiền điều kiện tối thiểu. Đây là kỹ năng dùng hằng ngày của Kỹ sư dữ liệu.",
+  goi:"Ghi theo 3 mục: (a) tần suất bạn viết truy vấn SQL, hằng ngày, hằng tuần hay hiếm khi; (b) mức phức tạp cao nhất đã viết như JOIN nhiều bảng, subquery, window function; (c) khối lượng dữ liệu thường xử lý.",
+  mc:"Ảnh chụp câu truy vấn đã viết; file Excel hoặc báo cáo do bạn xây dựng.",
+  levels:[[9,12,"Viết truy vấn hằng tuần trở lên, có JOIN nhiều bảng hoặc subquery, xử lý hàng chục nghìn bản ghi, có sản phẩm đang được sử dụng."],
+          [5,8,"Viết được truy vấn JOIN cơ bản, sử dụng không thường xuyên; Excel thành thạo Pivot và Power Query."],
+          [0,4,"Chỉ ở mức tiền điều kiện tối thiểu, hiếm khi sử dụng."]]},
+ {tt:9,g:"A",ten:"Công cụ phân tích, BI và Python",max:6,rows:3,
+  mean:"Kinh nghiệm dùng Power BI, Tableau hoặc Python để phân tích và trực quan hóa dữ liệu.",
+  goi:"Ghi công cụ đã dùng và liệt kê sản phẩm bạn đã xây dựng, mỗi sản phẩm ghi tên, mục đích và ai đang sử dụng.",
+  mc:"Ảnh chụp dashboard hoặc báo cáo; file mã nguồn nếu dùng Python.",
+  levels:[[5,6,"Đã tự xây dựng dashboard BI hoặc chương trình phân tích bằng Python đang được đơn vị sử dụng."],
+          [2,4,"Biết sử dụng công cụ ở mức thao tác cơ bản, chưa tự xây dựng sản phẩm hoàn chỉnh."],
+          [0,1,"Chưa sử dụng công cụ phân tích nào ngoài Excel."]]},
+ {tt:10,g:"A",ten:"Tiếng Anh trên ngưỡng tối thiểu",max:4,rows:2,
+  mean:"Trình độ vượt mức B1 hoặc TOEIC 550, thuận lợi cho việc tự đọc tài liệu chuyên môn.",
+  goi:"Ghi loại chứng chỉ, điểm số, năm cấp.", mc:"Bản sao chứng chỉ còn hiệu lực.",
+  levels:[[4,4,"TOEIC từ 700 trở lên hoặc tương đương."],[2,3,"TOEIC từ 600 đến 699."],[0,1,"TOEIC từ 550 đến 599."]]},
+ Object.assign({tt:11},C.dongco), Object.assign({tt:12},C.dinhhuong), Object.assign({tt:13},C.thoigian),
+ {tt:14,g:"C",ten:"Tính liên quan của công việc hiện tại",max:8,rows:3,
+  mean:"Vị trí bạn đang làm gắn với phân tích số liệu, báo cáo và ra quyết định dựa trên dữ liệu.",
+  goi:"Ghi vị trí công việc, nhiệm vụ chính, các loại báo cáo hoặc số liệu đang phụ trách và tần suất thực hiện.",
+  mc:"Bản mô tả công việc; mẫu báo cáo định kỳ do bạn thực hiện.",
+  levels:[[6,8,"Công việc chính là phân tích và tổng hợp số liệu phục vụ ra quyết định, thực hiện hằng tuần hoặc hằng tháng."],
+          [3,5,"Có làm báo cáo số liệu nhưng chủ yếu ở mức tổng hợp, tần suất thấp."],
+          [0,2,"Công việc thuần kỹ thuật thi công hoặc hành chính, ít tiếp xúc số liệu."]]},
+ Object.assign({tt:15},C.capstone),
+ {tt:16,g:"D",ten:"Tinh thần tự học và chủ động",max:5,rows:3,
+  mean:"Khả năng tự học và kỷ luật cá nhân. Đây là yếu tố quyết định việc theo được phần tự học trên hệ thống LXP.",
+  goi:"Ghi các nội dung bạn đã tự học trong 24 tháng gần nhất và sản phẩm hoặc kết quả thu được.",
+  mc:"Chứng chỉ tự thi, sản phẩm tự làm, hoặc sáng kiến đã áp dụng.",
+  levels:[[4,5,"Có ít nhất một sản phẩm hoặc chứng chỉ tự học được cán bộ quản lý xác nhận, áp dụng được vào công việc."],
+          [2,3,"Có tự học nhưng chưa tạo ra sản phẩm cụ thể."],[0,1,"Không kê khai được hoạt động tự học nào."]]},
+ {tt:17,g:"D",ten:"Tư duy truyền đạt và Data Storytelling",max:6,rows:4,
+  mean:"Khả năng diễn giải số liệu thành thông điệp và khuyến nghị dễ hiểu cho lãnh đạo và bộ phận nghiệp vụ. Đây là năng lực đầu ra đặc trưng của nghề.",
+  goi:"Ghi một báo cáo hoặc bản trình bày số liệu do bạn thực hiện: người nghe là ai, thông điệp chính rút ra là gì, đã dẫn tới quyết định hoặc hành động nào.",
+  mc:"Bản báo cáo hoặc slide đã trình bày; biên bản họp hoặc văn bản chỉ đạo phát sinh từ báo cáo nếu có.",
+  levels:[[5,6,"Báo cáo rút ra thông điệp rõ kèm khuyến nghị hành động và đã dẫn tới quyết định hoặc thay đổi trong công việc."],
+          [3,4,"Trình bày số liệu có nhận xét nhưng chưa đưa được khuyến nghị cụ thể."],
+          [0,2,"Chỉ tổng hợp và gửi số liệu, không diễn giải."]]},
+ {tt:18,g:"D",ten:"Làm việc nhóm và trình bày",max:4,rows:3,
+  mean:"Đồ án Capstone làm theo nhóm và phải bảo vệ trước hội đồng, cần khả năng phối hợp.",
+  goi:"Ghi các nhóm công tác, đề tài hoặc sáng kiến đã tham gia trong 24 tháng gần nhất, nêu rõ vai trò.",
+  mc:"Quyết định thành lập nhóm hoặc tổ công tác; biên bản nghiệm thu sáng kiến.",
+  levels:[[3,4,"Đã từng chủ trì nhóm hoặc trình bày trước tập thể, cán bộ quản lý xác nhận phối hợp tốt."],
+          [2,2,"Tham gia nhóm ở vai trò thành viên, phối hợp bình thường."],
+          [0,1,"Chủ yếu làm việc độc lập, chưa tham gia nhóm."]]}
+];
+
+var CFG = {
+  AI:{ten:"LỚP ĐÀO TẠO KỸ SƯ TRÍ TUỆ NHÂN TẠO (AI)", phu:"Chương trình chuyển dịch chức danh, 120 giờ trong 12–15 tuần",
+    crit:CRIT_AI, screen:screenFor("AI"),
+    groups:[["A","Năng lực nền tảng chuyên môn",35,17],["B","Động lực và cam kết cá nhân",35,21],
+            ["C","Phù hợp và khả năng ứng dụng",18,9],["D","Thái độ và yếu tố mềm",12,0]],
+    ev:["Bản sao bằng tốt nghiệp đại học","Bản sao bảng điểm đại học, phần các môn toán và xác suất thống kê",
+        "Bản sao chứng chỉ tiếng Anh còn hiệu lực","Bản trình bày động cơ tham gia, 150–300 từ, có chữ ký",
+        "Bản định hướng nghề nghiệp cá nhân 2–3 năm","Bảng kế hoạch học tập theo tuần, có chữ ký",
+        "Bản đề xuất bài toán Capstone, khoảng nửa trang","Bản mô tả công việc hoặc quyết định phân công nhiệm vụ",
+        "File mã nguồn hoặc ảnh chụp sản phẩm lập trình đã viết","Chứng chỉ hoặc sản phẩm tự học, nếu có",
+        "Quyết định thành lập nhóm công tác hoặc biên bản nghiệm thu sáng kiến, nếu có",
+        "Bản cam kết cá nhân theo mẫu, có chữ ký","Phiếu xác nhận cử đi học của cán bộ quản lý trực tiếp"]},
+  DS:{ten:"LỚP ĐÀO TẠO KỸ SƯ DỮ LIỆU (DATA SCIENCE)", phu:"Chương trình chuyển dịch chức danh, đào tạo theo hình thức kết hợp",
+    crit:CRIT_DS, screen:screenFor("DS"),
+    groups:[["A","Năng lực nền tảng chuyên môn",32,16],["B","Động lực và cam kết cá nhân",35,21],
+            ["C","Phù hợp và khả năng ứng dụng",18,9],["D","Thái độ và yếu tố mềm",15,0]],
+    ev:["Bản sao bằng tốt nghiệp đại học","Bản sao bảng điểm đại học, phần các môn xác suất thống kê",
+        "Bản sao chứng chỉ tiếng Anh còn hiệu lực","Bản trình bày động cơ tham gia, 150–300 từ, có chữ ký",
+        "Bản định hướng nghề nghiệp cá nhân 2–3 năm","Bảng kế hoạch học tập theo tuần, có chữ ký",
+        "Bản đề xuất bài toán Capstone, khoảng nửa trang","Bản mô tả công việc hoặc quyết định phân công nhiệm vụ",
+        "Ảnh chụp câu truy vấn SQL hoặc file Excel do cá nhân xây dựng","Ảnh chụp dashboard BI hoặc báo cáo phân tích đã thực hiện",
+        "Chứng chỉ hoặc sản phẩm tự học, nếu có","Quyết định thành lập nhóm công tác hoặc biên bản nghiệm thu sáng kiến, nếu có",
+        "Bản cam kết cá nhân theo mẫu, có chữ ký","Phiếu xác nhận cử đi học của cán bộ quản lý trực tiếp"]}
+};
+
+/* ============================ TRẠNG THÁI ============================ */
+var cls = "AI";
+var S = {info:{}, screen:{}, crit:{}, ev:{}};
+function blankState(){ S = {info:{}, screen:{}, crit:{}, ev:{}}; }
+
+/* ============================ DỰNG GIAO DIỆN ============================ */
+var $ = function(id){ return document.getElementById(id); };
+function el(tag, cls, txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }
+
+function renderInfo(){
+  var box = $("infoGrid"); box.innerHTML="";
+  INFO.forEach(function(f){
+    var w = el("div","f");
+    var l = el("label",null,f[1]); l.setAttribute("for","i_"+f[0]);
+    var i = document.createElement("input"); i.type="text"; i.id="i_"+f[0];
+    i.value = S.info[f[0]]||"";
+    i.addEventListener("input",function(){ S.info[f[0]]=i.value; i.classList.remove("err"); });
+    w.appendChild(l); w.appendChild(i); box.appendChild(w);
+  });
+}
+
+function renderScreen(){
+  var box=$("screenBox"); box.innerHTML="";
+  CFG[cls].screen.forEach(function(s,idx){
+    var st = S.screen[idx] || (S.screen[idx]={txt:"",ok:null});
+    var g = el("div","gate"), inn = el("div","gate-in");
+    var h = el("div","gate-h");
+    h.appendChild(el("span","gate-n",String(idx+1)));
+    h.appendChild(el("span","gate-t",s.ten));
+    inn.appendChild(h);
+    inn.appendChild(el("div","gate-req",s.yc));
+    var b = el("div","gate-b");
+    var left = el("div");
+    left.appendChild(el("div","hint",s.goi+" Minh chứng: "+s.mc));
+    var ta = document.createElement("textarea"); ta.rows=2; ta.value=st.txt;
+    ta.addEventListener("input",function(){ st.txt=ta.value; ta.classList.remove("err"); });
+    left.appendChild(ta);
+    var yn = el("div","yn");
+    [["Đạt",true],["Không đạt",false]].forEach(function(o){
+      var lb=el("label"); var r=document.createElement("input");
+      r.type="radio"; r.name="scr"+idx; r.checked = st.ok===o[1];
+      r.addEventListener("change",function(){ st.ok=o[1]; refresh(); });
+      lb.appendChild(r); lb.appendChild(document.createTextNode(o[0])); yn.appendChild(lb);
+    });
+    b.appendChild(left); b.appendChild(yn);
+    inn.appendChild(b); g.appendChild(inn); box.appendChild(g);
+  });
+}
+
+function renderCrit(){
+  var box=$("critBox"); box.innerHTML="";
+  CFG[cls].crit.forEach(function(c){
+    var st = S.crit[c.tt] || (S.crit[c.tt]={txt:"",mc:"",band:null,score:null});
+    var w = el("div","crit");
+    var h = el("div","crit-h");
+    h.appendChild(el("span","tt","Tiêu chí "+c.tt));
+    var nm=document.createElement("strong"); nm.textContent=c.ten; h.appendChild(nm);
+    h.appendChild(el("span","grp","Nhóm "+c.g));
+    h.appendChild(el("span","max","Tối đa "+c.max+" điểm"));
+    w.appendChild(h);
+    w.appendChild(el("p","mean",c.mean));
+
+    var s1=el("div","step"); var l1=el("div","step-l");
+    l1.appendChild(el("span",null,"①")); l1.appendChild(document.createTextNode("Nội dung bạn kê khai"));
+    s1.appendChild(l1); s1.appendChild(el("div","hint",c.goi));
+    var t1=document.createElement("textarea"); t1.rows=c.rows; t1.value=st.txt;
+    t1.addEventListener("input",function(){ st.txt=t1.value; t1.classList.remove("err"); });
+    s1.appendChild(t1); w.appendChild(s1);
+
+    var s2=el("div","step"); var l2=el("div","step-l");
+    l2.appendChild(el("span",null,"②")); l2.appendChild(document.createTextNode("Minh chứng bạn đính kèm"));
+    s2.appendChild(l2); s2.appendChild(el("div","hint",c.mc));
+    var t2=document.createElement("textarea"); t2.rows=2; t2.value=st.mc;
+    t2.addEventListener("input",function(){ st.mc=t2.value; t2.classList.remove("err"); });
+    s2.appendChild(t2); w.appendChild(s2);
+
+    var s3=el("div","step"); var l3=el("div","step-l");
+    l3.appendChild(el("span",null,"③")); l3.appendChild(document.createTextNode("Chọn mức đúng với bạn nhất"));
+    s3.appendChild(l3);
+    var bands=el("div","bands"); var num;
+    c.levels.forEach(function(lv,li){
+      var lb=el("label","band"+(st.band===li?" on":""));
+      var r=document.createElement("input"); r.type="radio"; r.name="c"+c.tt; r.checked=st.band===li;
+      r.addEventListener("change",function(){
+        st.band=li; st.score=lv[1];
+        Array.prototype.forEach.call(bands.children,function(x,xi){ x.className="band"+(xi===li?" on":""); });
+        num.min=lv[0]; num.max=lv[1]; num.value=lv[1]; num.disabled=false;
+        refresh();
+      });
+      lb.appendChild(r);
+      lb.appendChild(el("span","band-x",(lv[0]===lv[1]?lv[0]:lv[0]+"–"+lv[1])+" đ"));
+      lb.appendChild(el("span","band-d",lv[2]));
+      bands.appendChild(lb);
+    });
+    s3.appendChild(bands);
+    var pr=el("div","pickrow");
+    var pl=el("label",null,"Điểm bạn tự chấm"); pl.setAttribute("for","n"+c.tt);
+    num=document.createElement("input"); num.type="number"; num.id="n"+c.tt; num.step="1";
+    if(st.band!=null){ num.min=c.levels[st.band][0]; num.max=c.levels[st.band][1]; }
+    num.disabled = st.band==null;
+    num.value = st.score==null?"":st.score;
+    num.addEventListener("input",function(){
+      var v=parseInt(num.value,10);
+      if(isNaN(v)){ st.score=null; refresh(); return; }
+      var lo=c.levels[st.band][0], hi=c.levels[st.band][1];
+      if(v<lo)v=lo; if(v>hi)v=hi; num.value=v; st.score=v; refresh();
+    });
+    pr.appendChild(pl); pr.appendChild(num); pr.appendChild(el("span","of","trên "+c.max+" điểm"));
+    s3.appendChild(pr); w.appendChild(s3);
+    box.appendChild(w);
+  });
+}
+
+function renderEv(){
+  var box=$("evBox"); box.innerHTML="";
+  box.appendChild(el("div","hint","Đánh dấu những gì bạn nộp kèm bản in. Danh sách này sẽ xuất ra file Word."));
+  CFG[cls].ev.forEach(function(t,i){
+    var lb=el("label","chk"); var c=document.createElement("input");
+    c.type="checkbox"; c.checked=!!S.ev[i];
+    c.addEventListener("change",function(){ S.ev[i]=c.checked; });
+    lb.appendChild(c); lb.appendChild(document.createTextNode(t)); box.appendChild(lb);
+  });
+}
+
+/* ============================ TÍNH ĐIỂM ============================ */
+function calc(){
+  var cfg=CFG[cls], byG={A:0,B:0,C:0,D:0}, tot=0, done=0;
+  cfg.crit.forEach(function(c){
+    var st=S.crit[c.tt];
+    if(st && typeof st.score==="number"){ byG[c.g]+=st.score; tot+=st.score; done++; }
+  });
+  var pass1 = cfg.screen.every(function(s,i){ return S.screen[i] && S.screen[i].ok===true; });
+  var pass3 = cfg.groups.every(function(g){ return g[3]===0 || byG[g[0]]>=g[3]; });
+  return {byG:byG, tot:tot, done:done, all:cfg.crit.length, g1:pass1, g2:tot>=60, g3:pass3};
+}
+
+function refresh(){
+  var cfg=CFG[cls], r=calc();
+  $("totNum").textContent = r.tot;
+  var bars=$("bars"); bars.innerHTML="";
+  cfg.groups.forEach(function(g){
+    var v=r.byG[g[0]], pct=Math.min(100, g[2]? v/g[2]*100:0);
+    var okG = g[3]===0 || v>=g[3];
+    var b=el("div","bar"), h=el("div","bar-h");
+    var lft=el("b","Nhóm "+g[0]+" · "+g[1]);
+    var rgt=el("em",null, v+"/"+g[2]+(g[3]?"  (cần ≥"+g[3]+")":""));
+    h.appendChild(lft); h.appendChild(rgt); b.appendChild(h);
+    var tr=el("div","track"), fl=el("div","fill"+(okG?" pass":""));
+    fl.style.width=pct+"%"; tr.appendChild(fl);
+    if(g[3]){ var th=el("div","thr"); th.style.left=(g[3]/g[2]*100)+"%"; tr.appendChild(th); }
+    b.appendChild(tr); bars.appendChild(b);
+  });
+  var gt=$("gates"); gt.innerHTML="";
+  [[r.g1,"Đạt cả 6/6 điều kiện sàng lọc"],
+   [r.g2,"Tổng điểm từ 60 trở lên"],
+   [r.g3,"Đạt ngưỡng tối thiểu từng nhóm A, B, C"],
+   [r.done===r.all,"Đã chấm đủ "+r.all+" tiêu chí ("+r.done+"/"+r.all+")"]].forEach(function(x){
+    var d=el("div","g "+(x[0]?"yes":"no"));
+    d.appendChild(el("i",null,x[0]?"✓":"○"));
+    d.appendChild(el("span",null,x[1])); gt.appendChild(d);
+  });
+  var ok = r.g1&&r.g2&&r.g3&&r.done===r.all;
+  var v=$("verdict");
+  v.className="verdict "+(ok?"yes":"no");
+  v.textContent = ok? "Đạt yêu cầu đầu vào" : "Chưa đạt yêu cầu đầu vào";
+}
+
+function renderAll(){ renderInfo(); renderScreen(); renderCrit(); renderEv(); refresh(); }
+
+/* ============================ THÔNG BÁO ============================ */
+var tmo;
+function toast(msg){
+  var t=$("toast"); t.textContent=msg; t.classList.add("on");
+  clearTimeout(tmo); tmo=setTimeout(function(){ t.classList.remove("on"); },3200);
+}
+
+/* ============================ ZIP (store, không nén) ============================ */
+var CRC = (function(){
+  var t=new Int32Array(256);
+  for(var n=0;n<256;n++){ var c=n; for(var k=0;k<8;k++) c = c&1 ? 0xEDB88320^(c>>>1) : c>>>1; t[n]=c; }
+  return t;
+})();
+function crc32(u8){
+  var c=0^(-1);
+  for(var i=0;i<u8.length;i++) c=(c>>>8)^CRC[(c^u8[i])&0xFF];
+  return (c^(-1))>>>0;
+}
+function utf8(str){ return new TextEncoder().encode(str); }
+function zip(files){
+  var chunks=[], central=[], offset=0;
+  function u16(v){ return [v&255,(v>>8)&255]; }
+  function u32(v){ return [v&255,(v>>8)&255,(v>>16)&255,(v>>24)&255]; }
+  files.forEach(function(f){
+    var name=utf8(f.name), data=utf8(f.data), crc=crc32(data);
+    var lh=[].concat([80,75,3,4],u16(20),u16(0),u16(0),u16(0),u16(0),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0));
+    var head=new Uint8Array(lh);
+    chunks.push(head, name, data);
+    central.push({name:name,crc:crc,len:data.length,off:offset});
+    offset += head.length + name.length + data.length;
+  });
+  var cd=[];
+  central.forEach(function(c){
+    var h=[].concat([80,75,1,2],u16(20),u16(20),u16(0),u16(0),u16(0),u16(0),u32(c.crc),u32(c.len),u32(c.len),
+      u16(c.name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(c.off));
+    cd.push(new Uint8Array(h), c.name);
+  });
+  var cdLen=cd.reduce(function(a,b){ return a+b.length; },0);
+  var end=new Uint8Array([].concat([80,75,5,6],u16(0),u16(0),u16(central.length),u16(central.length),u32(cdLen),u32(offset),u16(0)));
+  var all=chunks.concat(cd,[end]);
+  var total=all.reduce(function(a,b){ return a+b.length; },0);
+  var out=new Uint8Array(total), p=0;
+  all.forEach(function(a){ out.set(a,p); p+=a.length; });
+  return out;
+}
+
+/* ============================ OOXML ============================ */
+function esc(s){
+  return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function P(text,o){
+  o=o||{};
+  var pr="<w:pPr>";
+  pr+='<w:spacing w:before="'+(o.before||0)+'" w:after="'+(o.after==null?60:o.after)+'" w:line="250" w:lineRule="auto"/>';
+  if(o.align) pr+='<w:jc w:val="'+o.align+'"/>';
+  pr+="</w:pPr>";
+  var lines=String(text==null?"":text).split(/\r?\n/);
+  var rpr='<w:rPr>'+(o.b?"<w:b/>":"")+(o.i?"<w:i/>":"")+'<w:sz w:val="'+(o.sz||20)+'"/><w:szCs w:val="'+(o.sz||20)+'"/>'+(o.color?'<w:color w:val="'+o.color+'"/>':"")+'</w:rPr>';
+  var runs="";
+  lines.forEach(function(ln,i){
+    if(i>0) runs+='<w:r>'+rpr+'<w:br/></w:r>';
+    if(ln!=="") runs+='<w:r>'+rpr+'<w:t xml:space="preserve">'+esc(ln)+'</w:t></w:r>';
+  });
+  if(!runs) runs='<w:r>'+rpr+'<w:t xml:space="preserve"></w:t></w:r>';
+  return "<w:p>"+pr+runs+"</w:p>";
+}
+function TC(content,w,o){
+  o=o||{};
+  var pr='<w:tcPr><w:tcW w:w="'+w+'" w:type="dxa"/>';
+  if(o.span) pr+='<w:gridSpan w:val="'+o.span+'"/>';
+  if(o.fill) pr+='<w:shd w:val="clear" w:color="auto" w:fill="'+o.fill+'"/>';
+  pr+='<w:vAlign w:val="'+(o.va||"center")+'"/></w:tcPr>';
+  return "<w:tc>"+pr+content+"</w:tc>";
+}
+function TR(cells){ return "<w:tr>"+cells.join("")+"</w:tr>"; }
+function TBL(grid,rows){
+  var b='<w:tblBorders>'+["top","left","bottom","right","insideH","insideV"].map(function(s){
+    return '<w:'+s+' w:val="single" w:sz="4" w:space="0" w:color="9A9A9A"/>'; }).join("")+'</w:tblBorders>';
+  var total=grid.reduce(function(a,c){ return a+c; },0);
+  return '<w:tbl><w:tblPr><w:tblW w:w="'+total+'" w:type="dxa"/><w:tblLayout w:type="fixed"/>'+b+
+    '<w:tblCellMar><w:top w:w="60" w:type="dxa"/><w:left w:w="90" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="90" w:type="dxa"/></w:tblCellMar></w:tblPr>'+
+    '<w:tblGrid>'+grid.map(function(c){ return '<w:gridCol w:w="'+c+'"/>'; }).join("")+'</w:tblGrid>'+rows.join("")+'</w:tbl>';
+}
+
+var RED_X="C00000", LIGHT_X="FBEAEA", HDR_X="F2C4C4", GREY_X="666B75";
+
+function buildDocXml(){
+  var cfg=CFG[cls], r=calc(), body="";
+  var W=10466;
+
+  body+=P("TỔNG CÔNG TY MẠNG LƯỚI VIETTEL (VTNet)",{b:true,sz:19,align:"center",after:20});
+  body+=P("PHIẾU ĐĂNG KÝ KIÊM TỰ ĐÁNH GIÁ",{b:true,sz:28,align:"center",color:RED_X,after:40});
+  body+=P(cfg.ten,{b:true,sz:22,align:"center",after:30});
+  body+=P(cfg.phu,{i:true,sz:18,align:"center",color:GREY_X,after:30});
+  body+=P("Cá nhân tự kê khai và tự chấm điểm. Cán bộ quản lý trực tiếp xác nhận.",{i:true,sz:18,align:"center",color:GREY_X,after:160});
+
+  /* A */
+  body+=P("A. THÔNG TIN CÁ NHÂN",{b:true,sz:21,color:RED_X,before:120,after:80});
+  var gi=[2600,2633,2600,2633], rowsI=[];
+  for(var i=0;i<INFO.length;i+=2){
+    var a=INFO[i], b2=INFO[i+1];
+    rowsI.push(TR([
+      TC(P(a[1],{b:true,sz:19,after:0}),gi[0],{fill:LIGHT_X}),
+      TC(P(S.info[a[0]]||"",{sz:19,after:0}),gi[1]),
+      TC(P(b2?b2[1]:"",{b:true,sz:19,after:0}),gi[2],{fill:LIGHT_X}),
+      TC(P(b2?(S.info[b2[0]]||""):"",{sz:19,after:0}),gi[3])
+    ]));
+  }
+  body+=TBL(gi,rowsI);
+
+  /* B */
+  body+=P("B. PHẦN I — ĐIỀU KIỆN SÀNG LỌC BẮT BUỘC",{b:true,sz:21,color:RED_X,before:200,after:60});
+  body+=P("Phải đạt toàn bộ 6/6 điều kiện. Chỉ cần một điều kiện không đạt thì hồ sơ không được xét tiếp Phần II.",{i:true,sz:17,color:GREY_X,after:80});
+  var gs=[450,2000,4416,1800,1800];
+  var rowsS=[TR([
+    TC(P("TT",{b:true,sz:18,align:"center",after:0}),gs[0],{fill:HDR_X}),
+    TC(P("Điều kiện",{b:true,sz:18,align:"center",after:0}),gs[1],{fill:HDR_X}),
+    TC(P("Nội dung cá nhân kê khai",{b:true,sz:18,align:"center",after:0}),gs[2],{fill:HDR_X}),
+    TC(P("Cá nhân tự đánh giá",{b:true,sz:18,align:"center",after:0}),gs[3],{fill:HDR_X}),
+    TC(P("CBQL xác nhận",{b:true,sz:18,align:"center",after:0}),gs[4],{fill:HDR_X})
+  ])];
+  cfg.screen.forEach(function(s,idx){
+    var st=S.screen[idx]||{};
+    rowsS.push(TR([
+      TC(P(String(idx+1),{sz:18,align:"center",after:0}),gs[0]),
+      TC(P(s.ten,{b:true,sz:18,after:20})+P(s.yc,{i:true,sz:16,color:GREY_X,after:0}),gs[1],{va:"top"}),
+      TC(P(st.txt||"",{sz:18,after:0}),gs[2],{va:"top"}),
+      TC(P(st.ok===true?"Đạt":(st.ok===false?"Không đạt":"—"),{b:true,sz:18,align:"center",after:0}),gs[3]),
+      TC(P("☐ Đạt    ☐ Không đạt",{sz:17,align:"center",after:0}),gs[4])
+    ]));
+  });
+  body+=TBL(gs,rowsS);
+
+  /* C */
+  body+=P("C. PHẦN II — TỰ KÊ KHAI VÀ TỰ CHẤM ĐIỂM (thang 100 điểm)",{b:true,sz:21,color:RED_X,before:200,after:80});
+  var gc=[2100,4766,1800,1800];
+  cfg.crit.forEach(function(c){
+    var st=S.crit[c.tt]||{};
+    var lvTxt=c.levels.map(function(l){ return (l[0]===l[1]?l[0]:l[0]+"–"+l[1])+" đ: "+l[2]; }).join("\n");
+    var rows=[
+      TR([TC(P("Tiêu chí "+c.tt+". "+c.ten+"   (Nhóm "+c.g+" — tối đa "+c.max+" điểm)",{b:true,sz:19,after:0}),W,{span:4,fill:HDR_X})]),
+      TR([TC(P("① Nội dung kê khai",{b:true,sz:18,after:0}),gc[0],{fill:LIGHT_X,va:"top"}),
+          TC(P(st.txt||"",{sz:18,after:0}),gc[1]+gc[2]+gc[3],{span:3,va:"top"})]),
+      TR([TC(P("② Minh chứng đính kèm",{b:true,sz:18,after:0}),gc[0],{fill:LIGHT_X,va:"top"}),
+          TC(P(st.mc||"",{sz:18,after:0}),gc[1]+gc[2]+gc[3],{span:3,va:"top"})]),
+      TR([TC(P("③ Mức đã chọn",{b:true,sz:18,after:0}),gc[0],{fill:LIGHT_X,va:"top"}),
+          TC(P(lvTxt,{sz:17,after:0}),gc[1],{va:"top"}),
+          TC(P("Cá nhân tự chấm",{b:true,sz:17,align:"center",after:60})+P((st.score==null?"......":st.score)+" / "+c.max,{b:true,sz:22,align:"center",after:0}),gc[2]),
+          TC(P("CBQL xác nhận",{b:true,sz:17,align:"center",after:60})+P("......... / "+c.max,{sz:20,align:"center",after:0}),gc[3])])
+    ];
+    body+=TBL(gc,rows);
+    body+=P("",{after:80});
+  });
+
+  /* D */
+  body+=P("D. TỔNG HỢP ĐIỂM VÀ ĐỐI CHIẾU NGƯỠNG ĐẠT",{b:true,sz:21,color:RED_X,before:160,after:80});
+  var gg=[1100,4166,1400,1400,2400];
+  var rowsG=[TR([
+    TC(P("Nhóm",{b:true,sz:18,align:"center",after:0}),gg[0],{fill:HDR_X}),
+    TC(P("Nội dung",{b:true,sz:18,align:"center",after:0}),gg[1],{fill:HDR_X}),
+    TC(P("Điểm tối đa",{b:true,sz:18,align:"center",after:0}),gg[2],{fill:HDR_X}),
+    TC(P("Ngưỡng tối thiểu",{b:true,sz:18,align:"center",after:0}),gg[3],{fill:HDR_X}),
+    TC(P("Tự chấm / CBQL xác nhận",{b:true,sz:18,align:"center",after:0}),gg[4],{fill:HDR_X})
+  ])];
+  cfg.groups.forEach(function(g){
+    rowsG.push(TR([
+      TC(P(g[0],{b:true,sz:18,align:"center",after:0}),gg[0],{fill:LIGHT_X}),
+      TC(P(g[1],{sz:18,after:0}),gg[1]),
+      TC(P(g[2]+" đ",{b:true,sz:18,align:"center",after:0}),gg[2]),
+      TC(P(g[3]?("≥ "+g[3]+" đ"):"—",{b:true,sz:18,align:"center",color:RED_X,after:0}),gg[3]),
+      TC(P(r.byG[g[0]]+"  /  .........",{sz:19,align:"center",after:0}),gg[4])
+    ]));
+  });
+  rowsG.push(TR([
+    TC(P("TỔNG",{b:true,sz:18,align:"center",after:0}),gg[0],{fill:HDR_X}),
+    TC(P("Tổng điểm Phần II",{b:true,sz:18,after:0}),gg[1],{fill:HDR_X}),
+    TC(P("100 đ",{b:true,sz:18,align:"center",after:0}),gg[2],{fill:HDR_X}),
+    TC(P("≥ 60 đ",{b:true,sz:18,align:"center",color:RED_X,after:0}),gg[3],{fill:HDR_X}),
+    TC(P(r.tot+"  /  .........",{b:true,sz:19,align:"center",after:0}),gg[4],{fill:HDR_X})
+  ]));
+  body+=TBL(gg,rowsG);
+  var ok=r.g1&&r.g2&&r.g3&&r.done===r.all;
+  body+=P("Kết luận tạm tính theo phần tự chấm: "+(ok?"ĐẠT yêu cầu đầu vào":"CHƯA ĐẠT yêu cầu đầu vào"),{b:true,sz:19,before:120,after:40});
+  body+=P("Kết luận chính thức căn cứ điểm do cán bộ quản lý xác nhận. Đạt khi thỏa mãn đồng thời: 6/6 điều kiện Phần I, tổng từ 60 điểm trở lên, và đạt ngưỡng tối thiểu từng nhóm A, B, C.",{i:true,sz:17,color:GREY_X,after:60});
+
+  /* E */
+  body+=P("E. DANH MỤC MINH CHỨNG ĐÍNH KÈM",{b:true,sz:21,color:RED_X,before:200,after:80});
+  var ge=[600,8066,1800];
+  var rowsE=[TR([
+    TC(P("TT",{b:true,sz:18,align:"center",after:0}),ge[0],{fill:HDR_X}),
+    TC(P("Loại minh chứng",{b:true,sz:18,align:"center",after:0}),ge[1],{fill:HDR_X}),
+    TC(P("Đã đính kèm",{b:true,sz:18,align:"center",after:0}),ge[2],{fill:HDR_X})
+  ])];
+  cfg.ev.forEach(function(t,i){
+    rowsE.push(TR([
+      TC(P(String(i+1),{sz:18,align:"center",after:0}),ge[0]),
+      TC(P(t,{sz:18,after:0}),ge[1]),
+      TC(P(S.ev[i]?"☒":"☐",{sz:22,align:"center",after:0}),ge[2])
+    ]));
+  });
+  body+=TBL(ge,rowsE);
+
+  /* F */
+  body+=P("F. Ý KIẾN ĐIỀU CHỈNH CỦA CÁN BỘ QUẢN LÝ",{b:true,sz:21,color:RED_X,before:200,after:80});
+  body+=TBL([W],[TR([TC(P("Ghi rõ tiêu chí và lý do điều chỉnh điểm so với phần cá nhân tự chấm, nếu có:",{b:true,sz:18,after:60})+P("",{after:60})+P("",{after:60})+P("",{after:0}),W,{va:"top"})])]);
+
+  /* Chữ ký */
+  body+=P("",{after:200});
+  body+=P("..........., ngày ....... tháng ....... năm 20.......",{sz:19,align:"right",after:120});
+  var gsg=[5233,5233];
+  body+=TBL(gsg,[TR([
+    TC(P("CÁ NHÂN ĐĂNG KÝ",{b:true,sz:19,align:"center",after:40})+
+       P("Tôi cam đoan các nội dung kê khai trên là đúng sự thật và chịu trách nhiệm về tính chính xác của các minh chứng đính kèm. Tôi cam kết tham gia đầy đủ chương trình và dự thi chuyển đổi chức danh cuối khóa.",{i:true,sz:17,align:"center",after:60})+
+       P("(Ký, ghi rõ họ tên)",{i:true,sz:17,align:"center",after:60})+P("",{after:60})+P("",{after:60})+P("",{after:0}),gsg[0],{va:"top"}),
+    TC(P("CÁN BỘ QUẢN LÝ TRỰC TIẾP",{b:true,sz:19,align:"center",after:40})+
+       P("Tôi đã đối chiếu nội dung kê khai với thực tế công việc và minh chứng của cá nhân, xác nhận kết quả chấm điểm nêu trên. Đơn vị đồng ý cử đi học và cam kết bố trí thời gian cho cá nhân tham gia đầy đủ chương trình.",{i:true,sz:17,align:"center",after:60})+
+       P("(Ký, ghi rõ họ tên, chức vụ)",{i:true,sz:17,align:"center",after:60})+P("",{after:60})+P("",{after:60})+P("",{after:0}),gsg[1],{va:"top"})
+  ])]);
+
+  body+='<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="720" w:right="590" w:bottom="720" w:left="850" w:header="0" w:footer="0" w:gutter="0"/></w:sectPr>';
+
+  return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'+body+'</w:body></w:document>';
+}
+
+function makeDocx(){
+  var files=[
+    {name:"[Content_Types].xml", data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>'},
+    {name:"_rels/.rels", data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'},
+    {name:"word/_rels/document.xml.rels", data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {name:"word/styles.xml", data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="60" w:line="250" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults></w:styles>'},
+    {name:"word/document.xml", data:buildDocXml()}
+  ];
+  return zip(files);
+}
+
+function validate(){
+  var cfg=CFG[cls], bad=null, n=0;
+  ["hoTen","maNV","donVi","chucDanh"].forEach(function(k){
+    var i=$("i_"+k);
+    if(i && !i.value.trim()){ i.classList.add("err"); n++; if(!bad)bad=i; }
+  });
+  cfg.crit.forEach(function(c){
+    var st=S.crit[c.tt]||{};
+    if(typeof st.score!=="number"){ var e=$("n"+c.tt); if(e){ e.classList.add("err"); n++; if(!bad)bad=e; } }
+  });
+  if(n){ if(bad) bad.scrollIntoView({block:"center",behavior:"smooth"}); }
+  return n;
+}
+
+function download(bytes,name,mime){
+  var blob=new Blob([bytes],{type:mime});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url; a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },1500);
+}
+
+/* ============================ SỰ KIỆN ============================ */
+$("classpick").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-cls]"); if(!b) return;
+  if(b.dataset.cls===cls) return;
+  cls=b.dataset.cls;
+  Array.prototype.forEach.call(this.querySelectorAll("button"),function(x){
+    x.setAttribute("aria-pressed", x.dataset.cls===cls ? "true":"false"); });
+  S.crit={}; S.screen={}; S.ev={};
+  renderAll();
+  toast("Đã chuyển sang "+(cls==="AI"?"lớp Kỹ sư AI":"lớp Kỹ sư Dữ liệu")+". Phần chấm điểm được đặt lại.");
+});
+
+$("btnDocx").addEventListener("click",function(){
+  var miss=validate();
+  if(miss){ toast("Còn "+miss+" mục bắt buộc chưa điền. Các ô đó đã được đánh dấu đỏ."); return; }
+  try{
+    var name=(S.info.hoTen||"Phieu").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").replace(/[^A-Za-z0-9]+/g,"_");
+    download(makeDocx(), "Phieu_tu_danh_gia_"+cls+"_"+name+".docx",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    toast("Đã tải phiếu Word. In ra, ký và trình cán bộ quản lý xác nhận.");
+  }catch(err){ toast("Không tạo được file Word: "+err.message); }
+});
+
+$("btnSave").addEventListener("click",function(){
+  var data=JSON.stringify({cls:cls,S:S,v:1},null,1);
+  download(utf8(data),"Ban_nhap_phieu_"+cls+".json","application/json");
+  toast("Đã lưu bản nháp về máy bạn.");
+});
+$("btnLoad").addEventListener("click",function(){ $("fileIn").click(); });
+$("fileIn").addEventListener("change",function(e){
+  var f=e.target.files[0]; if(!f) return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{
+      var d=JSON.parse(rd.result);
+      if(!d||!d.S) throw new Error("Nội dung không đúng định dạng");
+      cls = d.cls==="DS"?"DS":"AI"; S=d.S;
+      Array.prototype.forEach.call($("classpick").querySelectorAll("button"),function(x){
+        x.setAttribute("aria-pressed", x.dataset.cls===cls?"true":"false"); });
+      renderAll(); toast("Đã mở bản nháp. Bạn điền tiếp được rồi.");
+    }catch(err){ toast("Không đọc được file này. Hãy chọn đúng file bản nháp đã lưu."); }
+    e.target.value="";
+  };
+  rd.readAsText(f);
+});
+
+renderAll();
+</script>
+</body>
+</html>
